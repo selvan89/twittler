@@ -3,30 +3,71 @@
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+                <link rel = "stylesheet" type="text/css" href="reset.css">
+
+      <link rel = "stylesheet" type="text/css" href="styles.css">
+
+
   </head>
   <body>
+    <h1 class="vertical">Twittler</h1>
 
+    <section class="tweetSection"></section>
     <script>
+    
+    $(document).ready(function(){
 
-      $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
-
-        function showTweet(){
-          $tweet.appendTo($body);
-        }
-
-        var index = streams.home.length - 1;
+      //Populate the screen with 11 tweets already
+      var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          showTweet();
-          console.log('hi');
+
+
+          var $singleTweet = $('<div class="singleTweet"></div>');//The big tweet box
+          var $list = $('<ul></ul>');//The ul for each tweet component
+
+          var $name = $('<li class="name"></li>');//The name of the tweeter
+          $name.text('@' + tweet.user);
+
+          var $message = $('<li class="message"></li>');//The message of the tweeter
+          $message.text(tweet.message);
+
+          var $date = $('<li class="date"></li>');//The date of the tweet
+          $date.text(tweet.created_at);
+
+          //Append all of these to each other.
+          $singleTweet.appendTo($('.tweetSection'));
+          $list.appendTo($singleTweet);
+          $name.appendTo($list);
+          $message.appendTo($list);
+          $date.appendTo($list);
+
           index -= 1;
         }
-      });
 
+        //Now, add to the tweets every second. 
+        //the question is how to access the 11th, then 12th index of streams.
+
+
+        var newIndex = 11; //Global Variable to determine the current tweet
+
+        function addNewTweet(){//Function that determines the next index in streams and tweets it
+          var tweet = streams.home[newIndex];
+          var $tweet = $('<li></li>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $un.text('@' + tweet.user)
+          $tweet.text(tweet.message);
+          $un.prependTo('ul');
+          $tweet.prependTo('ul');;
+          newIndex+=1;
+
+        }
+
+        //Times how often a new tweet shows up
+        setInterval(addNewTweet, 3000);
+
+    });
+      
     </script>
   </body>
 </html>

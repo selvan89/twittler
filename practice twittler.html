@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+  </head>
+  <body>
+    <h1>Twittler</h1>
+      <ul>
+      </ul>
+
+    <script>
+    $(document).ready(function(){
+
+      //Populate the screen with 11 tweets already
+      var index = streams.home.length - 1;
+        while(index >= 0){
+          var tweet = streams.home[index];
+          var $tweet = $('<li></li>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          $tweet.appendTo('ul');
+          index -= 1;
+        }
+
+        //Now, add to the tweets every second. 
+        //the question is how to access the 11th, then 12th index of streams.
+
+        var newIndex = 11;
+        function addNewTweet(){
+          var tweet = streams.home[newIndex];
+          var $tweet = $('<li></li>');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message);
+          newIndex+=1;
+          console.log(newIndex);
+          return $('ul').prepend($tweet);
+        }
+
+        setInterval(addNewTweet, 2000);
+
+    });
+      
+    </script>
+  </body>
+</html>
+
+
