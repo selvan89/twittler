@@ -11,8 +11,9 @@
   </head>
   <body>
     <h1 class="vertical">Twittler</h1>
+    <button type="button" id="addTweets">More Tweets!</button>
 
-    <section class="tweetSection"></section>
+    <section id="tweetSection"></section>
     <script>
     
     $(document).ready(function(){
@@ -36,7 +37,7 @@
           $date.text(tweet.created_at);
 
           //Append all of these to each other.
-          $singleTweet.appendTo($('.tweetSection'));
+          $singleTweet.appendTo($('#tweetSection'));
           $list.appendTo($singleTweet);
           $name.appendTo($list);
           $message.appendTo($list);
@@ -49,35 +50,37 @@
         //the question is how to access the 11th, then 12th index of streams.
 
 
-        var newIndex = 11; //Global Variable to determine the current tweet
-
         function addNewTweet(){//Function that determines the next index in streams and tweets it
-          var $singleTweet = $('<div class="singleTweet"></div>');//The big tweet box
-          var $list = $('<ul></ul>');//The ul for each tweet component
+          var oldLength = ($('div').length);
+          var newLength = streams.home.length - 1;
+          console.log("length of tweets on page: " + oldLength);
+          console.log("length of streams(aka newL: " + streams.home.length);
+          
+          for(var i = oldLength; i <= newLength; i++){
+            var tweet = streams.home[i];
+            var $singleTweet = $('<div class="singleTweet"></div>');//The big tweet box
+            var $list = $('<ul></ul>');//The ul for each tweet component
 
-          var $name = $('<li class="name"></li>');//The name of the tweeter
-          $name.text('@' + tweet.user);
+            var $name = $('<li class="name"></li>');//The name of the tweeter
+            $name.text('@' + tweet.user);
 
-          var $message = $('<li class="message"></li>');//The message of the tweeter
-          $message.text(tweet.message);
+            var $message = $('<li class="message"></li>');//The message of the tweeter
+            $message.text(tweet.message);
 
-          var $date = $('<li class="date"></li>');//The date of the tweet
-          $date.text(tweet.created_at);
+            var $date = $('<li class="date"></li>');//The date of the tweet
+            $date.text(tweet.created_at);
 
-          //Append all of these to each other.
-          $singleTweet.prependTo($('.tweetSection'));
-          $list.appendTo($singleTweet);
-          $name.appendTo($list);
-          $message.appendTo($list);
-          $date.appendTo($list);
-
-          index+=1;
+            //Append all of these to each other.
+            $singleTweet.prependTo($('#tweetSection'));
+            $list.appendTo($singleTweet).slideDown();
+            $name.appendTo($list);
+            $message.appendTo($list);
+            $date.appendTo($list);
+          }
 
         }
-
+        $('#addTweets').on('click', addNewTweet);
         //Times how often a new tweet shows up
-        setInterval(addNewTweet, 3000);
-
     });
       
     </script>
