@@ -13,7 +13,7 @@
     <h1 class="vertical">Twittler</h1>
     <button type="button" id="addTweets">More Tweets!</button>
 
-    <section id="tweetSection"></section>
+    <section class="allTweetSection"></section>
     <script>
     
     $(document).ready(function(){
@@ -37,7 +37,7 @@
           $date.text(tweet.created_at);
 
           //Append all of these to each other.
-          $singleTweet.appendTo($('#tweetSection'));
+          $singleTweet.appendTo($('.allTweetSection'));
           $list.appendTo($singleTweet);
           $name.appendTo($list);
           $message.appendTo($list);
@@ -50,7 +50,7 @@
         //the question is how to access the 11th, then 12th index of streams.
 
 
-        function addNewTweet(){//Function that determines the next index in streams and tweets it
+        function showNewTweet(){//Function that determines the next index in streams and tweets it
           var oldLength = ($('div').length);
           var newLength = streams.home.length - 1;
           console.log("length of tweets on page: " + oldLength);
@@ -77,9 +77,12 @@
             $message.appendTo($list);
             $date.appendTo($list);
           }
-
         }
-        $('#addTweets').on('click', addNewTweet);
+        $('#addTweets').on('click', showNewTweet);
+        $('.name').on('click', function(){
+          $(this).switchClass('name', 'name2');
+        });
+
         //Times how often a new tweet shows up
     });
       
