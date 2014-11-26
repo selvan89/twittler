@@ -11,9 +11,11 @@
   </head>
   <body>
     <h1 class="vertical">Twittler</h1>
-    <button type="button" id="addTweets">More Tweets!</button>
-
-    <section class="allTweetSection"></section>
+    <button type="button" id="moreTweets">More Tweets!</button>
+    <button type="button" id="goBack" class="allTweetSection2">Go Back</button>
+    <section id="allTweetSection"></section>
+    <section id="userTweetSection">
+    </section>
     <script>
     
     $(document).ready(function(){
@@ -27,7 +29,7 @@
           var $singleTweet = $('<div class="singleTweet"></div>');//The big tweet box
           var $list = $('<ul></ul>');//The ul for each tweet component
 
-          var $name = $('<li class="name"></li>');//The name of the tweeter
+          var $name = $('<li class="name"></li>').attr('user', tweet.user);//The name of the tweeter
           $name.text('@' + tweet.user);
 
           var $message = $('<li class="message"></li>');//The message of the tweeter
@@ -37,7 +39,7 @@
           $date.text(tweet.created_at);
 
           //Append all of these to each other.
-          $singleTweet.appendTo($('.allTweetSection'));
+          $singleTweet.appendTo($('#allTweetSection'));
           $list.appendTo($singleTweet);
           $name.appendTo($list);
           $message.appendTo($list);
@@ -59,10 +61,11 @@
           for(var i = oldLength; i <= newLength; i++){
             var tweet = streams.home[i];
             var $singleTweet = $('<div class="singleTweet"></div>');//The big tweet box
-            var $list = $('<ul></ul>');//The ul for each tweet component
+            var $list = $('<ul class=></ul>');//The ul for each tweet component
 
-            var $name = $('<li class="name"></li>');//The name of the tweeter
+            var $name = $('<li class="name"></li>').attr('user', tweet.user);//The name of the tweeter
             $name.text('@' + tweet.user);
+
 
             var $message = $('<li class="message"></li>');//The message of the tweeter
             $message.text(tweet.message);
@@ -71,20 +74,71 @@
             $date.text(tweet.created_at);
 
             //Append all of these to each other.
-            $singleTweet.prependTo($('#tweetSection'));
-            $list.appendTo($singleTweet).slideDown();
+            $singleTweet.prependTo($('#allTweetSection'));
+            $list.appendTo($singleTweet);
             $name.appendTo($list);
             $message.appendTo($list);
             $date.appendTo($list);
           }
         }
-        $('#addTweets').on('click', showNewTweet);
-        $('.name').on('click', function(){
-          $(this).switchClass('name', 'name2');
+
+        $('#moreTweets').on('click', showNewTweet);
+
+          //Gets the Tweeter's name
+        $('body').on('click', 'div.singleTweet', function(){
+            var thisName = $(this).find('.name').attr('user');
+            console.log(thisName);
+            console.log(streams.users[thisName])
+            $('#allTweetSection').addClass('allTweetSection2');
+            $('#userTweetSection').addClass('allTweetSection');
+            $('#goBack').removeClass('allTweetSection2');
+            $('#moreTweets').addClass('allTweetSection2');
+
+            //Prepopulate with all of the users tweets
+          function showNewUserTweet(){//Function that determines the next index in streams and tweets it
+            console.log(thisName);
+            var tweet = streams.users[thisName];
+            console.log(tweet);
+            for(var i = 0; i < tweet.length; i++){
+              var userTweet = streams.users.thisName;
+              var $singleTweet = $('<div class="singleTweet"></div>');//The big tweet box
+              var $list = $('<ul class=></ul>');//The ul for each tweet component
+
+              var $name = $('<li class="name"></li>');//The name of the tweeter
+              $name.text('@' + tweet[i].user);
+
+
+              var $message = $('<li class="message"></li>');//The message of the tweeter
+              $message.text(tweet[i].message);
+
+              var $date = $('<li class="date"></li>');//The date of the tweet
+              $date.text(tweet[i].created_at);
+
+              //Append all of these to each other.
+              $singleTweet.prependTo($('#userTweetSection'));
+              $list.appendTo($singleTweet);
+              $name.appendTo($list);
+              $message.appendTo($list);
+              $date.appendTo($list);
+            }
+        }
+        if($('#userTweetSection').hasClass('allTweetSection2')){
+          $('#userTweetSection').removeClass('allTweetSection2');
+        }
+        showNewUserTweet();
+
         });
 
-        //Times how often a new tweet shows up
+        $('#goBack').on('click', function(){
+          $('#allTweetSection').removeClass('allTweetSection2');
+          $('#userTweetSection').addClass('allTweetSection2');
+          $('#moreTweets').removeClass('allTweetSection2');
+          $('#goBack').addClass('allTweetSection2');
+          $('#userTweetSection').html("");
+        })
+
     });
+
       
     </script>
   </body>
